@@ -2,6 +2,7 @@ import argparse
 import datetime
 import ssl
 import time
+import json
 import jwt
 import paho.mqtt.client as mqtt
 
@@ -54,14 +55,21 @@ parser.add_argument("--project_id", required=True)
 parser.add_argument("--cloud_region", required=True)
 parser.add_argument("--registry_id", required=True)
 parser.add_argument("--device_id", required=True)
-parser.add_argument("--temperature", required=True)
+parser.add_argument("--voltageA", required=True)
+parser.add_argument("--voltageB", required=True)
+parser.add_argument("--voltageC", required=True)
+parser.add_argument("--node_id", required=True)
 args = parser.parse_args()
 
 project_id = args.project_id
 cloud_region = args.cloud_region
 registry_id = args.registry_id
 device_id = args.device_id
-payload = args.temperature
+node_id = args.node_id
+voltageA = args.voltageA
+voltageB = args.voltageB
+voltageC = args.voltageC
+payload = json.dumps({"node_id":node_id, "voltageA":voltageA, "voltageB":voltageB, "voltageC":voltageC})
 
 client_id = "projects/{}/locations/{}/registries/{}/devices/{}".format(
         project_id, cloud_region, registry_id, device_id
